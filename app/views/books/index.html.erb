@@ -1,0 +1,50 @@
+<div class="container pt-4 px-5 px-sm-0">
+  <% if @new_book.errors.any? %>
+    <div class="errors-box">
+      <p><%= @new_book.errors.count %> errors prohibited this book from being saved:</p>
+  
+      <ul>
+        <% @new_book.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="row">
+    <div class="col-md-3">
+        <%= render partial: 'layouts/side', locals: { user: @user, new_book: @new_book } %>
+    </div>
+    
+    <div class="col-md-8 offset-md-1">
+        <h2>Books</h2>
+        
+        <table class="table mb-5">
+            <thead>
+                <tr>
+                    <td></td>
+                    <td>Title</td>
+                    <td>Opinion</td>
+                </tr>
+            </thead>
+            <tbody>
+                <% @books.each do |book| %>
+                <tr>
+                    <td>
+                        <%= link_to user_path(book.user.id) do %>
+                        <%= image_tag @user.get_profile_image(80,80) %>
+                        <% end %>
+                    </td>
+                    <td>
+                        <%= link_to book_path(book.id) do %>
+                        <%= book.title %>
+                        <% end %>
+                    </td>
+                    <td><%= book.body %></td>
+                </tr>
+                <% end %>
+                
+            </tbody>
+        </table>
+    </div>
+  </div>
+</div>
