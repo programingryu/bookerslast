@@ -24,6 +24,8 @@
                     <td></td>
                     <td>Title</td>
                     <td>Opinion</td>
+                    <td></td>
+                    <td></td>
                 </tr>
             </thead>
             <tbody>
@@ -31,7 +33,7 @@
                 <tr>
                     <td>
                         <%= link_to user_path(book.user.id) do %>
-                        <%= image_tag @user.get_profile_image(80,80) %>
+                        <%= image_tag book.user.get_profile_image(80,80) %>
                         <% end %>
                     </td>
                     <td>
@@ -40,6 +42,24 @@
                         <% end %>
                     </td>
                     <td><%= book.body %></td>
+                    <% if book.favorited?(current_user) %>
+                    <td>
+                        <!--# 一致するレコードが存在する＝すでにいいね済みの場合はdestroyアクションへ-->
+                        <%= link_to book_favorites_path(book.id), method: :delete do %>
+                            <i class="fas fa-heart" style="color:red;"></i>
+                            <span style="color:red;"><%= book.favorites.count %></span>
+                        <% end %>
+                    </td>
+                    <% else %>
+                    <td>
+                        <!--# 一致するレコードが存在しない＝まだいいねしていない場合はcreateアクションへ-->
+                        <%= link_to book_favorites_path(book.id), method: :post do %>
+                            <i class="fas fa-heart" style="color:blue;"></i>
+                            <span style="color:blue;"><%= book.favorites.count %></span>
+                        <% end %>
+                    </td>
+                    <% end %>
+                    <td>コメント数：<%= book.book_comments.count %></td>
                 </tr>
                 <% end %>
                 

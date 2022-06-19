@@ -13,6 +13,7 @@ class UsersController < ApplicationController
         @new_book = Book.new
         @books = @user.books
         @post_image = @user.profile_image
+        
     end
     
     def edit
